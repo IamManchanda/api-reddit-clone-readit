@@ -4,6 +4,8 @@ import {
   Column,
   BaseEntity,
   Index,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from "typeorm";
 
 @Entity("users")
@@ -26,4 +28,10 @@ export class User extends BaseEntity {
 
   @Column()
   password: string;
+
+  @CreateDateColumn({ name: "created_at" })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: "updated_at" })
+  updatedAt: Date;
 }
