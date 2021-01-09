@@ -10,6 +10,7 @@ import {
   BeforeInsert,
 } from "typeorm";
 import bcrypt from "bcrypt";
+import { classToPlain, Exclude } from "class-transformer";
 
 @Entity("users")
 export class User extends BaseEntity {
@@ -18,6 +19,7 @@ export class User extends BaseEntity {
     Object.assign(this, user);
   }
 
+  @Exclude()
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -33,6 +35,7 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   username: string;
 
+  @Exclude()
   @Length(6, 255, {
     message: "Password must be at least 6 characters long",
   })
@@ -48,5 +51,9 @@ export class User extends BaseEntity {
   @BeforeInsert()
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 6);
+  }
+
+  toJSON() {
+    return classToPlain(this);
   }
 }
