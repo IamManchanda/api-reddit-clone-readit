@@ -1,3 +1,4 @@
+import { IsEmail, Length } from "class-validator";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -19,13 +20,20 @@ export class User extends BaseEntity {
   id: number;
 
   @Index()
+  @IsEmail()
   @Column({ unique: true })
   email: string;
 
   @Index()
+  @Length(3, 255, {
+    message: "Username must be at least 3 characters long",
+  })
   @Column({ unique: true })
   username: string;
 
+  @Length(6, 255, {
+    message: "Password must be at least 6 characters long",
+  })
   @Column()
   password: string;
 
