@@ -1,5 +1,12 @@
-import { Column, Entity as TOEntity, Index } from "typeorm";
+import {
+  Column,
+  Entity as TOEntity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+} from "typeorm";
 import Entity from "./shared/Entity";
+import User from "./User";
 
 @TOEntity("posts")
 export default class Post extends Entity {
@@ -24,4 +31,8 @@ export default class Post extends Entity {
 
   @Column({ nullable: true, type: "text", name: "sub_name" })
   subName: string;
+
+  @ManyToOne(() => User, (user) => user.posts)
+  @JoinColumn({ name: "username", referencedColumnName: "username" })
+  user: User;
 }
