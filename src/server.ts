@@ -2,8 +2,11 @@ import express from "express";
 import morgan from "morgan";
 import "reflect-metadata";
 import { createConnection } from "typeorm";
+import dotenv from "dotenv";
 import authRoutes from "./routes/auth";
 import trim from "./middlewares/trim";
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
