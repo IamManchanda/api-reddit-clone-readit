@@ -10,12 +10,6 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(trim);
 
-app.get("/", function welcomeToApi(_req, res) {
-  return res.status(200).json({
-    message: "Hello, Welcome to the API",
-  });
-});
-
 app.use("/api/auth", authRoutes);
 
 app.listen(5000, async function bootApp() {
