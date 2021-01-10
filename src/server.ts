@@ -5,6 +5,7 @@ import { createConnection } from "typeorm";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth";
+import postsRoutes from "./routes/posts";
 import trim from "./middlewares/trim";
 
 dotenv.config();
@@ -18,6 +19,7 @@ app.use(trim);
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/posts", postsRoutes);
 
 app.listen(PORT, async function bootApp() {
   console.log(`Server listening on http://localhost:${PORT}`);
