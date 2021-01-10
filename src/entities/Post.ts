@@ -1,10 +1,12 @@
 import {
+  BeforeInsert,
   Column,
   Entity as TOEntity,
   Index,
   JoinColumn,
   ManyToOne,
 } from "typeorm";
+import { makeId, slugify } from "../utils/helpers";
 import Entity from "./shared/Entity";
 import User from "./User";
 
@@ -35,4 +37,10 @@ export default class Post extends Entity {
   @ManyToOne(() => User, (user) => user.posts)
   @JoinColumn({ name: "username", referencedColumnName: "username" })
   user: User;
+
+  @BeforeInsert()
+  makeIdAndSlug() {
+    this.identifier = makeId(7);
+    this.slug = slugify(this.title);
+  }
 }
