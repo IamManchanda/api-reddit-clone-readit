@@ -3,7 +3,7 @@ import { isEmpty, validate } from "class-validator";
 import { Request, Response, Router } from "express";
 import jwt from "jsonwebtoken";
 import cookie from "cookie";
-import { User } from "../entities/User";
+import User from "../entities/User";
 import auth from "../middlewares/auth";
 
 const register = async (req: Request, res: Response) => {
