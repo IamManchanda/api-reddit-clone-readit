@@ -10,6 +10,8 @@ import trim from "./middlewares/trim";
 dotenv.config();
 
 const app = express();
+const { PORT } = process.env;
+
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(trim);
@@ -17,8 +19,8 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 
-app.listen(5000, async function bootApp() {
-  console.log("Server listening on http://localhost:5000");
+app.listen(PORT, async function bootApp() {
+  console.log(`Server listening on http://localhost:${PORT}`);
   try {
     await createConnection();
     console.log("Database connection successfully established");
