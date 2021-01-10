@@ -34,9 +34,9 @@ const register = async (req: Request, res: Response) => {
     await user.save();
     return res.status(200).json(user);
   } catch (error) {
-    console.log(error);
+    console.log({ error });
     return res.status(500).json({
-      error: "Something went wrong.",
+      error: "Something went wrong",
     });
   }
 };
@@ -88,9 +88,32 @@ const login = async (req: Request, res: Response) => {
 
     return res.status(200).json(user);
   } catch (error) {
-    console.log(error);
+    console.log({ error });
     return res.status(500).json({
-      error: "Something went wrong.",
+      error: "Something went wrong",
+    });
+  }
+};
+
+const me = async (req: Request, res: Response) => {
+  try {
+    const { token } = req.cookies;
+    if (!token) {
+      throw new Error("Unauthenticated");
+    }
+
+    const { username }: any = jwt.verify(token, process.env.JWT_SECRET);
+
+    const user = await User.findOne({ username });
+    if (!user) {
+      throw new Error("Unauthenticated");
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log({ error });
+    return res.status(401).json({
+      error: error.message,
     });
   }
 };
@@ -98,5 +121,6 @@ const login = async (req: Request, res: Response) => {
 const router = Router();
 router.post("/register", register);
 router.post("/login", login);
+router.get("/me", me);
 
 export default router;
