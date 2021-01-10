@@ -117,10 +117,10 @@ const logout = (_req: Request, res: Response) => {
   });
 };
 
-const router = Router();
-router.post("/register", register);
-router.post("/login", login);
-router.get("/me", auth, me);
-router.get("/logout", auth, logout);
+const authRoutes = Router();
+authRoutes.post("/register", register);
+authRoutes.post("/login", login);
+authRoutes.get("/me", auth, me);
+authRoutes.get("/logout", auth, logout);
 
-export default router;
+export default authRoutes;
