@@ -9,6 +9,7 @@ import {
 import { makeId, slugify } from "../utils/helpers";
 import Entity from "./shared/Entity";
 import User from "./User";
+import Sub from "./Sub";
 
 @TOEntity("posts")
 export default class Post extends Entity {
@@ -31,12 +32,16 @@ export default class Post extends Entity {
   @Column({ nullable: true, type: "text" })
   body: string;
 
-  @Column({ nullable: true, type: "text", name: "sub_name" })
+  @Column({ name: "sub_name" })
   subName: string;
 
   @ManyToOne(() => User, (user) => user.posts)
   @JoinColumn({ name: "username", referencedColumnName: "username" })
   user: User;
+
+  @ManyToOne(() => Sub, (sub) => sub.posts)
+  @JoinColumn({ name: "sub_name", referencedColumnName: "name" })
+  sub: Sub;
 
   @BeforeInsert()
   makeIdAndSlug() {
