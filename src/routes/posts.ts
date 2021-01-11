@@ -28,7 +28,44 @@ const createPost = async (req: Request, res: Response) => {
   }
 };
 
+const readPosts = async (_req: Request, res: Response) => {
+  try {
+    const posts = await Post.find({
+      order: {
+        createdAt: "DESC",
+      },
+    });
+    return res.status(200).json(posts);
+  } catch (error) {
+    console.log({ error });
+    return res.status(500).json({
+      error: "Something went wrong",
+    });
+  }
+};
+
+const findPost = async (req: Request, res: Response) => {
+  const { identifier, slug } = req.params;
+
+  try {
+    const post = await Post.findOneOrFail(
+      { identifier, slug },
+      {
+        relations: ["sub"],
+      },
+    );
+    return res.status(200).json(post);
+  } catch (error) {
+    console.log({ error });
+    return res.status(404).json({
+      error: `Post with identifier \`${identifier}\` and slug \`${slug}\` not found`,
+    });
+  }
+};
+
 const postsRoutes = Router();
 postsRoutes.post("/", auth, createPost);
+postsRoutes.get("/", readPosts);
+postsRoutes.get("/:identifier/:slug", findPost);
 
 export default postsRoutes;
