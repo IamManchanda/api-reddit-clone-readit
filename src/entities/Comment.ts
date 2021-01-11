@@ -33,6 +33,7 @@ export default class Comment extends Entity {
   user: User;
 
   @ManyToOne(() => Post, (post) => post.comments, { nullable: false })
+  @JoinColumn({ name: "post_id", referencedColumnName: "id" })
   post: Post;
 
   @BeforeInsert()
