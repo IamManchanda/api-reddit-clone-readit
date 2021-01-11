@@ -2,6 +2,7 @@ import {
   BeforeInsert,
   Column,
   Entity as TOEntity,
+  Index,
   JoinColumn,
   ManyToOne,
 } from "typeorm";
@@ -17,6 +18,7 @@ export default class Comment extends Entity {
     Object.assign(this, comment);
   }
 
+  @Index()
   @Column()
   identifier: string;
 
