@@ -19,7 +19,6 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
     res.locals.user = user;
     return next();
   } catch (error) {
-    console.log({ error });
     return res.status(401).json({
       error: error.message,
     });
