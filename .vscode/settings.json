@@ -5,6 +5,7 @@
     "**/build/": true,
     "**/tmp/": true,
     "**/temp/": true,
-    "**/ormconfig.json": false
+    "**/ormconfig.json": false,
+    "**/*.env": false
   }
 }
