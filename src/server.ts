@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth";
 import postsRoutes from "./routes/posts";
+import subsRoutes from "./routes/subs";
 import trim from "./middlewares/trim";
 
 dotenv.config();
@@ -20,6 +21,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postsRoutes);
+app.use("/api/subs", subsRoutes);
 
 app.listen(PORT, async function bootApp() {
   console.log(`Server listening on http://localhost:${PORT}`);
