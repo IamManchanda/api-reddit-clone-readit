@@ -9,7 +9,7 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
       throw new Error("Unauthenticated");
     }
 
-    const { username }: any = jwt.verify(token, process.env.JWT_SECRET);
+    const { username }: any = jwt.verify(token, process.env.JWT_SECRET!);
 
     const user = await User.findOne({ username });
     if (!user) {

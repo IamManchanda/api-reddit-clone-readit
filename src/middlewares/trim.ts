@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-const trim = (req: Request, res: Response, next: NextFunction) => {
+const trim = (req: Request, _res: Response, next: NextFunction) => {
   const exceptions = ["password"];
   Object.keys(req.body).forEach((key) => {
     if (!exceptions.includes(key) && typeof req.body[key] === "string") {
