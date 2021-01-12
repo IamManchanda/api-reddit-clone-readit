@@ -4,6 +4,7 @@ import "reflect-metadata";
 import { createConnection } from "typeorm";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import authRoutes from "./routes/auth";
 import postsRoutes from "./routes/posts";
 import subsRoutes from "./routes/subs";
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(trim);
 app.use(cookieParser());
+app.use(cors());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postsRoutes);
