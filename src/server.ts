@@ -13,13 +13,19 @@ import trim from "./middlewares/trim";
 dotenv.config();
 
 const app = express();
-const { PORT } = process.env;
+const { PORT, ORIGIN } = process.env;
 
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(trim);
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: ORIGIN,
+    optionsSuccessStatus: 200,
+  }),
+);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postsRoutes);
