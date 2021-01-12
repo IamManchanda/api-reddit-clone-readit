@@ -71,7 +71,7 @@ const login = async (req: Request, res: Response) => {
     const user = await User.findOne({ username });
     if (!user) {
       return res.status(404).json({
-        error: `User with username \`${username}\` not found`,
+        username: `User with username \`${username}\` not found`,
       });
     }
 
