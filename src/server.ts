@@ -8,6 +8,7 @@ import cors from "cors";
 import authRoutes from "./routes/auth";
 import postsRoutes from "./routes/posts";
 import subsRoutes from "./routes/subs";
+import miscRoutes from "./routes/misc";
 import trim from "./middlewares/trim";
 
 dotenv.config();
@@ -30,6 +31,7 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postsRoutes);
 app.use("/api/subs", subsRoutes);
+app.use("/api/misc", miscRoutes);
 
 app.listen(PORT, async function bootApp() {
   console.log(`Server listening on http://localhost:${PORT}`);
