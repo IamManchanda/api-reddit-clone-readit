@@ -1,10 +1,11 @@
 import bcrypt from "bcrypt";
 import { isEmpty, validate } from "class-validator";
+import cookie from "cookie";
 import { Request, Response, Router } from "express";
 import jwt from "jsonwebtoken";
-import cookie from "cookie";
 import User from "../entities/User";
 import auth from "../middlewares/auth";
+import user from "../middlewares/user";
 
 const mapErrors = (errors: Object[]) => {
   return errors.reduce((prev: any, error: any) => {
@@ -128,7 +129,7 @@ const logout = (_req: Request, res: Response) => {
 const authRoutes = Router();
 authRoutes.post("/register", register);
 authRoutes.post("/login", login);
-authRoutes.get("/me", auth, me);
-authRoutes.get("/logout", auth, logout);
+authRoutes.get("/me", user, auth, me);
+authRoutes.get("/logout", user, auth, logout);
 
 export default authRoutes;

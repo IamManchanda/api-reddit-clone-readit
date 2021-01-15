@@ -1,9 +1,10 @@
 import { Request, Response, Router } from "express";
-import User from "../entities/User";
-import auth from "../middlewares/auth";
-import Post from "../entities/Post";
-import Vote from "../entities/Vote";
 import Comment from "../entities/Comment";
+import Post from "../entities/Post";
+import User from "../entities/User";
+import Vote from "../entities/Vote";
+import auth from "../middlewares/auth";
+import user from "../middlewares/user";
 
 const vote = async (req: Request, res: Response) => {
   const { identifier, slug, commentIdentifier, value } = req.body;
@@ -73,6 +74,6 @@ const vote = async (req: Request, res: Response) => {
 };
 
 const miscRoutes = Router();
-miscRoutes.post("/vote", auth, vote);
+miscRoutes.post("/vote", user, auth, vote);
 
 export default miscRoutes;

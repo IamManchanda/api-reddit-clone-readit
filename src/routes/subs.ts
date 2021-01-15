@@ -1,9 +1,10 @@
-import { Request, Response, Router } from "express";
-import User from "../entities/User";
-import Sub from "../entities/Sub";
-import auth from "../middlewares/auth";
 import { isEmpty } from "class-validator";
+import { Request, Response, Router } from "express";
 import { getRepository } from "typeorm";
+import Sub from "../entities/Sub";
+import User from "../entities/User";
+import auth from "../middlewares/auth";
+import user from "../middlewares/user";
 
 const createSubs = async (req: Request, res: Response) => {
   const { name, title, description } = req.body;
@@ -51,6 +52,6 @@ const createSubs = async (req: Request, res: Response) => {
 };
 
 const subsRoutes = Router();
-subsRoutes.post("/", auth, createSubs);
+subsRoutes.post("/", user, auth, createSubs);
 
 export default subsRoutes;
