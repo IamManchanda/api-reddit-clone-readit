@@ -56,8 +56,19 @@ export default class Post extends Entity {
   @OneToMany(() => Vote, (vote) => vote.post)
   votes: Vote[];
 
-  @Expose() get url(): string {
+  @Expose()
+  get url(): string {
     return `/r/${this.subName}/${this.identifier}/${this.slug}`;
+  }
+
+  @Expose()
+  get commentCount(): number {
+    return this.comments?.length;
+  }
+
+  @Expose()
+  get voteScore(): number {
+    return this.votes?.reduce((prev, curr) => prev + (curr.value || 0), 0);
   }
 
   @BeforeInsert()
