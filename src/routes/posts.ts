@@ -35,6 +35,7 @@ const readPosts = async (_req: Request, res: Response) => {
       order: {
         createdAt: "DESC",
       },
+      relations: ["comments", "votes", "sub"],
     });
     return res.status(200).json(posts);
   } catch (error) {
