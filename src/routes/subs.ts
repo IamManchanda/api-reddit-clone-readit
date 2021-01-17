@@ -1,11 +1,14 @@
 import { isEmpty } from "class-validator";
 import { Request, Response, Router } from "express";
+import multer, { FileFilterCallback } from "multer";
+import path from "path";
 import { getRepository } from "typeorm";
 import Post from "../entities/Post";
 import Sub from "../entities/Sub";
 import User from "../entities/User";
 import auth from "../middlewares/auth";
 import user from "../middlewares/user";
+import { makeId } from "../utils/helpers";
 
 const createSubs = async (req: Request, res: Response) => {
   const { name, title, description } = req.body;
@@ -78,8 +81,38 @@ const findSub = async (req: Request, res: Response) => {
   }
 };
 
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: "public/images",
+    filename: (_req, file, callback) => {
+      const name = makeId(15);
+      callback(null, `${name}${path.extname(file.originalname)}`);
+    },
+  }),
+  fileFilter: (_req, file, callback: FileFilterCallback) => {
+    if (file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
+      callback(null, true);
+    } else {
+      callback(new Error("Invalid file format"));
+    }
+  },
+});
+
+const uploadSubImage = async (_req: Request, res: Response) => {
+  return res.status(200).json({
+    success: true,
+  });
+};
+
 const subsRoutes = Router();
 subsRoutes.post("/", user, auth, createSubs);
 subsRoutes.get("/:name", user, findSub);
+subsRoutes.post(
+  "/:name/image",
+  user,
+  auth,
+  upload.single("file"),
+  uploadSubImage,
+);
 
 export default subsRoutes;

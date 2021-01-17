@@ -9,3 +9,6 @@ ormconfig.json
 
 # Env
 /**/*.env
+
+# Public Directory
+public/
