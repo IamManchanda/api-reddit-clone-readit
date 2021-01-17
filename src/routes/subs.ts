@@ -72,9 +72,8 @@ const findSub = async (req: Request, res: Response) => {
 
     return res.status(200).json(sub);
   } catch (error) {
-    console.log({ error });
-    return res.status(500).json({
-      error: "Something went wrong",
+    return res.status(404).json({
+      sub: "Sub not found",
     });
   }
 };
