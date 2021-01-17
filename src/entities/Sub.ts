@@ -33,6 +33,9 @@ export default class Sub extends Entity {
   @Column({ nullable: true, name: "banner_urn" })
   bannerUrn: string;
 
+  @Column()
+  username: string;
+
   @ManyToOne(() => User)
   @JoinColumn({ name: "username", referencedColumnName: "username" })
   user: User;
