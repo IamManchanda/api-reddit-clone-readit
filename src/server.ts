@@ -39,6 +39,6 @@ app.listen(PORT, async function bootApp() {
     await createConnection();
     console.log("Database connection successfully established");
   } catch (error) {
-    console.log(error);
+    console.log({ error });
   }
 });
