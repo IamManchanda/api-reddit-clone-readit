@@ -59,6 +59,9 @@ const findSub = async (req: Request, res: Response) => {
     const sub = await Sub.findOneOrFail({ name });
     const posts = await Post.find({
       where: { sub },
+      order: {
+        createdAt: "DESC",
+      },
       relations: ["comments", "votes"],
     });
     sub.posts = posts;
