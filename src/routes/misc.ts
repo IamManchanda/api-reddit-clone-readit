@@ -1,10 +1,12 @@
 import { Request, Response, Router } from "express";
+import { getConnection } from "typeorm";
 import Comment from "../entities/Comment";
 import Post from "../entities/Post";
 import User from "../entities/User";
 import Vote from "../entities/Vote";
 import auth from "../middlewares/auth";
 import user from "../middlewares/user";
+import Sub from "../entities/Sub";
 
 const vote = async (req: Request, res: Response) => {
   const { identifier, slug, commentIdentifier, value } = req.body;
@@ -73,7 +75,33 @@ const vote = async (req: Request, res: Response) => {
   }
 };
 
+const topSubs = async (_req: Request, res: Response) => {
+  try {
+    const imageUrlExp = `COALESCE('${process.env.APP_URL}/images/' || s.image_urn , 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=retro&f=y')`;
+
+    const subs = await getConnection()
+      .createQueryBuilder()
+      .select(
+        `s.title, s.name, ${imageUrlExp} as "imageUrl", count(p.id) as "postCount"`,
+      )
+      .from(Sub, "s")
+      .leftJoin(Post, "p", `s.name = p.sub_name`)
+      .groupBy(`s.title, s.name, "imageUrl"`)
+      .orderBy(`"postCount"`, "DESC")
+      .limit(5)
+      .execute();
+
+    return res.json(subs);
+  } catch (error) {
+    console.log({ error });
+    return res.status(500).json({
+      error: "Something went wrong",
+    });
+  }
+};
+
 const miscRoutes = Router();
 miscRoutes.post("/vote", user, auth, vote);
+miscRoutes.get("/top-subs", topSubs);
 
 export default miscRoutes;
