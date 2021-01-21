@@ -58,8 +58,13 @@ const findPost = async (req: Request, res: Response) => {
   try {
     const post = await Post.findOneOrFail(
       { identifier, slug },
-      { relations: ["sub"] },
+      { relations: ["sub", "votes"] },
     );
+
+    if (res.locals.user) {
+      post.setUserVote(res.locals.user);
+    }
+
     return res.status(200).json(post);
   } catch (error) {
     return res.status(404).json({
@@ -96,7 +101,7 @@ const commentOnPost = async (req: Request, res: Response) => {
 const postsRoutes = Router();
 postsRoutes.post("/", user, auth, createPost);
 postsRoutes.get("/", user, readPosts);
-postsRoutes.get("/:identifier/:slug", findPost);
+postsRoutes.get("/:identifier/:slug", user, findPost);
 postsRoutes.post("/:identifier/:slug/comments", user, auth, commentOnPost);
 
 export default postsRoutes;
