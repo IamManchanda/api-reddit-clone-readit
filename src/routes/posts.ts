@@ -98,10 +98,36 @@ const commentOnPost = async (req: Request, res: Response) => {
   }
 };
 
+const findPostComments = async (req: Request, res: Response) => {
+  const { identifier, slug } = req.params;
+
+  try {
+    const post = await Post.findOneOrFail({ identifier, slug });
+    const comments = await Comment.find({
+      where: { post },
+      order: {
+        createdAt: "DESC",
+      },
+      relations: ["votes"],
+    });
+
+    if (res.locals.user) {
+      comments.forEach((c) => c.setUserVote(res.locals.user));
+    }
+
+    return res.status(200).json(comments);
+  } catch (error) {
+    return res.status(404).json({
+      error: `Post with identifier \`${identifier}\` and slug \`${slug}\` not found`,
+    });
+  }
+};
+
 const postsRoutes = Router();
 postsRoutes.post("/", user, auth, createPost);
 postsRoutes.get("/", user, readPosts);
 postsRoutes.get("/:identifier/:slug", user, findPost);
 postsRoutes.post("/:identifier/:slug/comments", user, auth, commentOnPost);
+postsRoutes.get("/:identifier/:slug/comments", user, findPostComments);
 
 export default postsRoutes;
