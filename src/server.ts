@@ -1,15 +1,16 @@
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import dotenv from "dotenv";
 import express from "express";
 import morgan from "morgan";
 import "reflect-metadata";
 import { createConnection } from "typeorm";
-import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
-import cors from "cors";
+import trim from "./middlewares/trim";
 import authRoutes from "./routes/auth";
+import miscRoutes from "./routes/misc";
 import postsRoutes from "./routes/posts";
 import subsRoutes from "./routes/subs";
-import miscRoutes from "./routes/misc";
-import trim from "./middlewares/trim";
+import usersRoutes from "./routes/users";
 
 dotenv.config();
 
@@ -33,6 +34,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/posts", postsRoutes);
 app.use("/api/subs", subsRoutes);
 app.use("/api/misc", miscRoutes);
+app.use("/api/users", usersRoutes);
 
 app.listen(PORT, async function bootApp() {
   console.log(`Server listening on http://localhost:${PORT}`);
