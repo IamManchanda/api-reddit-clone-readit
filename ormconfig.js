@@ -1,4 +1,5 @@
 const {
+  NODE_ENV,
   DB_DIALECT,
   DB_HOST,
   DB_PORT,
@@ -6,6 +7,8 @@ const {
   DB_PASSWORD,
   DB_DATABASE,
 } = process.env;
+
+const rootDir = NODE_ENV === "development" ? "src" : "build";
 
 module.exports = {
   type: DB_DIALECT,
@@ -15,14 +18,14 @@ module.exports = {
   password: DB_PASSWORD,
   database: DB_DATABASE,
   synchronize: false,
-  logging: true,
-  entities: ["src/entities/**/*.ts"],
-  migrations: ["src/migrations/**/*.ts"],
-  subscribers: ["src/subscribers/**/*.ts"],
-  seeds: ["src/seeds/**/*{.ts,.js}"],
+  logging: NODE_ENV === "development",
+  entities: [`${rootDir}/entities/**/*{.ts,.js}`],
+  migrations: [`${rootDir}/migrations/**/*{.ts,.js}`],
+  subscribers: [`${rootDir}/subscribers/**/*{.ts,.js}`],
+  seeds: [`${rootDir}/seeds/**/*{.ts,.js}`],
   cli: {
-    entitiesDir: "src/entities",
-    migrationsDir: "src/migrations",
-    subscribersDir: "src/subscribers",
+    entitiesDir: `${rootDir}/entities`,
+    migrationsDir: `${rootDir}/migrations`,
+    subscribersDir: `${rootDir}/subscribers`,
   },
 };
