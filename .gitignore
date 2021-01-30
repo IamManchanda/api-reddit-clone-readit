@@ -4,9 +4,6 @@ build/
 tmp/
 temp/
 
-# ORM Config
-ormconfig.json
-
 # Env
 /**/*.env
 
