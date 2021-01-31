@@ -38,7 +38,7 @@ app.use("/api/misc", miscRoutes);
 app.use("/api/users", usersRoutes);
 
 app.listen(port, async function bootApp() {
-  console.log(`Server listening on http://localhost:${port}`);
+  console.log(`Server started on port: ${port}`);
   try {
     await createConnection();
     console.log("Database connection successfully established");
