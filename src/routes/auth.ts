@@ -90,6 +90,10 @@ const login = async (req: Request, res: Response) => {
       cookie.serialize("token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
+        domain:
+          process.env.NODE_ENV === "production"
+            ? ".harrymanchanda.in"
+            : undefined,
         sameSite: "strict",
         maxAge: 3600,
         path: "/",
