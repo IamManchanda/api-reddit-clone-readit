@@ -40,7 +40,9 @@ app.use("/api/users", usersRoutes);
 app.listen(port, async function bootApp() {
   console.log(`Server started on port: ${port}`);
   try {
-    await createConnection();
+    const conn = await createConnection();
+    await conn.runMigrations();
+
     console.log("Database connection successfully established");
   } catch (error) {
     console.log({ error });
