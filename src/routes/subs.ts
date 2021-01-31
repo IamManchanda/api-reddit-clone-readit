@@ -108,7 +108,9 @@ const ownSub = async (req: Request, res: Response, next: NextFunction) => {
 
 const upload = multer({
   storage: multer.diskStorage({
-    destination: "public/images",
+    destination: (_req, _file, callback) => {
+      callback(null, "public/images");
+    },
     filename: (_req, file, callback) => {
       const name = makeId(15);
       callback(null, `${name}${path.extname(file.originalname)}`);
