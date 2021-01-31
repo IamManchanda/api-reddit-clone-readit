@@ -6,6 +6,13 @@ temp/
 
 # Env
 /**/*.env
+/**/*.env.production
 
 # Public Directory
 public/
+
+# Rough file
+.rough.txt
+
+# Deployment Script
+deploy.sh
