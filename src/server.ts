@@ -16,6 +16,7 @@ dotenv.config();
 
 const app = express();
 const { PORT, ORIGIN } = process.env;
+const port = Number(PORT);
 
 app.use(express.json());
 app.use(morgan("dev"));
@@ -36,8 +37,8 @@ app.use("/api/subs", subsRoutes);
 app.use("/api/misc", miscRoutes);
 app.use("/api/users", usersRoutes);
 
-app.listen(PORT, async function bootApp() {
-  console.log(`Server listening on http://localhost:${PORT}`);
+app.listen(port, async function bootApp() {
+  console.log(`Server listening on http://localhost:${port}`);
   try {
     await createConnection();
     console.log("Database connection successfully established");
