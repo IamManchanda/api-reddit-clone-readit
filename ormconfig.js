@@ -1,4 +1,4 @@
-const { NODE_ENV } = process.env;
+const { NODE_ENV, DATABASE_URL } = process.env;
 
 const rootDir = NODE_ENV === "development" ? "src" : "build";
 
